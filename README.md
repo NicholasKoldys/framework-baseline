@@ -101,10 +101,12 @@ This framework will assist in dynamic naming of files for cache busting, limit t
     │   └───style
     └───src
         │   index.js            > JS entry point for a webpack bundle. (multiple allowed)
-        │   [f_name].test.js       > Test functions for specific file
-        │   sw-reg.js           > sw registry that is added dynamically to entry-points
+        │   [f_name].test.js    > Test functions for specific file
+        │   sw-reg.js           > sw registry that is added dynamically 
+        |                        to entry-points
         │   src-sw.js           > sw event logic
-        │   vendor.js           > Logic for ....
+        │   vendor.js           > Allows bundle splitting third party
+        |                         libraries from app code 
         │
         └───api
                 baseUrl.js      > Logic to switch if db or mock used in userAPI

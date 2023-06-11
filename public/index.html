@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index.html - framework-baseline</title>
+    <!-- <link rel="icon" type="image/x-icon" href="/icons/favicon.ico"> -->
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+    <!-- <link rel="stylesheet" href="/style/alert.css">
+    <link rel="stylesheet" href="/style/style.css">
+    <link rel="stylesheet" href="/style/toast.css"> -->
+</head>
+<body>
+    <h1>HELLO WORLD!</h1>
+    <header class="header">
+        <!-- Application header -->
+    </header>
+
+    <nav class="nav">
+        <!-- Navigation items -->
+    </nav>
+
+    <div id="alert-notify">
+        <!-- Spinner/content placeholders and templates -->
+        <template id="high-alert-template">
+            <div slot="alert" title="alert-title" name="alert-container" class="alert">
+                <img slot="alert-icon">Icon</img>
+                <div slot="alert-desc" class="alert-desc">A alert message..</div>
+                <button slot="alert-action" class="alert-action">Action</button>
+                <button slot="alert-cancel" class="alert-cancel">Cancel</button>
+            </div>
+        </template>
+    </div>
+
+    <main id="app">
+        <!-- Where the application content populates -->
+        <table id="user-table">
+            <thead>
+                <th>&nbsp;</th>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+            </thead>
+            <tbody id="users">
+                <template id="user-data-template">
+                    <tr name="user">
+                        <td slot="data-id"><a href="#" data-id="" class="delete-user">Delete</a></td>
+                        <td slot="id" >USERTemplateId</td>
+                        <td slot="firstName" >USERTemplateFirstName</td>
+                        <td slot="lastName" >USERTemplateLastName</td>
+                        <td slot="email" >USERTemplateEmail</td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </main>
+
+    <div class="loader">
+        <!-- Spinner/content placeholders and templates -->
+    </div>
+
+    <div id="toast-notify">
+        <!-- Toast/QuietNotification placeholders and templates -->
+        <template id="low-toast-template">
+            <div slot="toast" title="toast-title" name="toast-container" class="toast">
+                <img slot="toast-icon">Icon</img>
+                <div slot="toast-desc" class="toast-desc">A notification message..</div>
+            </div>
+        </template>
+    </div>
+
+    <!-- Critical application shell logic -->
+    <!-- <script src="app.js"></script> -->
+    <!-- <script src="bundle.js"></script> -->
+
+    <!-- Service worker registration script -->
+    <!-- <script type="module">
+        /* if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        } */
+    </script> -->
+</body>
+</html>
