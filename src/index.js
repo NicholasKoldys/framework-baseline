@@ -1,6 +1,7 @@
 import "../public/style/alert.css";
 import "../public/style/style.css";
 import "../public/style/toast.css";
+import "../public/style/spinner.css";
 import { getUsers, deleteUser } from './api/users/userApi.mjs';
 
 function createUserRow(trTemplate, userObj) {

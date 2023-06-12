@@ -46,6 +46,8 @@ jspm_packages/
 *.old
 *.png
 *.err
+*copy.*
+*db.json
 
 # Information hiding - Remove Non-Dev Dependencies
 *.txt

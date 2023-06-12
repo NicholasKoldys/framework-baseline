@@ -39,13 +39,6 @@ if ('serviceWorker' in navigator) {
         showSkipWaitingPrompt();
     });
 
-    wb.addEventListener('message', event => {
-        if (event.data.type == 'URL_UPDATE') {
-            const { updatedURL } = event.data.payload;
-            console.log(`A newer version of ${updatedURL} is available!`);
-        }
-    });
-
     // Fired Every page load
     wb.register().then( async (registration) => {
 

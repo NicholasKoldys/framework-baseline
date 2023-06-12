@@ -1,9 +1,7 @@
 export default function getBaseUrl() {
-    // TODO change all default to actual="hostname URL"
-    // const inDevelopment = window.location.hostname === 'localhost';
-    // return inDevelopment ? 'http://localhost:3301/' : '/';
     return getQueryStringParametersByName('useMockApi') ? 'http://localhost:3301/' : '/';
 }
+
 function getQueryStringParametersByName(name, url) {
     if (!url) url = window.location.href;
 

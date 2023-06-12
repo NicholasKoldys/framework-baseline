@@ -11,7 +11,7 @@ import fs from 'fs';
 
 const json = JSON.stringify( jsf.generate(schema) );
 
-fs.writeFile("./src/api/db.json", json, function (err) {
+fs.writeFile("./src/api/users/db.json", json, function (err) {
     if (err) return console.log(err);
     console.log( "Mock data generated.");
 })
