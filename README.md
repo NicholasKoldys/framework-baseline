@@ -1,5 +1,4 @@
 # Framework-Baseline
-
 This project is a experiment and learning method to understand bundlers and how they fit in with other js packages to form an automated system that can perform multiple services, and act as a development environment with autonomous continuous integration.
 
 ## Why
