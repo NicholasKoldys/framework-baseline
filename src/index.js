@@ -35,7 +35,7 @@ getUsers().then(result => {
     const deleteLinks = global.document.getElementsByClassName('delete-user');
 
     for(const link of deleteLinks) {
-            link.onclick = function(event) {
+        link.onclick = function(event) {
             const element = event.target;
             event.preventDefault();
             deleteUser(element.attributes["data-id"].value);

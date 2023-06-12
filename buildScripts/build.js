@@ -27,5 +27,4 @@ webpack(webpackConfig).run((err, stats) => {
     console.log(chalk.green('App built to dist/'));
 
     return 0;
-
 });

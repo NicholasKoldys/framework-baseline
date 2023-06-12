@@ -52,20 +52,12 @@ This framework will assist in dynamic naming of files for cache busting, limit t
 | src | dir | contains all code that is considered logic in the app. This WILL be bundled. API folder contains dev logic that should not be built for production. | <ul><li>api :</li><li>index.js</li><li>index.test.js</li><li>index.js</li><li>src-sw.js</li><li>sw-reg.js</li><li>vendor.js</li></ul> |
 | api | src/dir | contains all code that can be created into separate API logic | <ul><li>baseUrl.js</li><li>db.json</li><li>userApi.js</li></ul> |
 
-    |   .babelrc
-    │   .eslintrc.json
-    │   .gitignore
-    │   .travis.yml
-    │   package-lock.json
-    │   package.json
-    │   procron.sh
-    │   README.md
-    │   txt.txt
-    │   webpack.config.dev.js
-    │   webpack.config.prod.js
-    │
-    ├───.vscode
-    │       settings.json
+    |   .babelrc                 > babel config = which devices to target
+    │   .eslintrc.json           > ESLint = which rules to lint
+    │   package.json             > Contains Dependencies and npm scripts
+    │   procron.sh               > File for daily automation.
+    │   webpack.config.dev.js    > Config for dev environment --watch on file changes
+    │   webpack.config.prod.js   > Config for building to dist folder, lint, test, and CI
     │
     ├───buildScripts
     │       distServer.js        > Creates a dev server from dist directory 'npm run prodtest'
@@ -82,8 +74,12 @@ This framework will assist in dynamic naming of files for cache busting, limit t
     │
     ├───dist
     ├───public
-    │   │   index.css
-    │   │   index.html
+    |   |
+    │   │───js                   > contains js directly 
+    |   |                         connected to the shell
+    |   |
+    |   |───style                > contains style directly 
+    |   |                         connected to the shell
     │   │
     │   ├───icons
     │   │       apple-touch.png
@@ -97,8 +93,8 @@ This framework will assist in dynamic naming of files for cache busting, limit t
     │   │       logo-96.png
     │   │       maskable-1024.png
     │   │
-    │   ├───js
-    │   └───style
+    |   |   index.html          > Main HTML Shell Template
+    │   
     └───src
         │   index.js            > JS entry point for a webpack bundle. (multiple allowed)
         │   [f_name].test.js    > Test functions for specific file
@@ -108,41 +104,34 @@ This framework will assist in dynamic naming of files for cache busting, limit t
         │   vendor.js           > Allows bundle splitting third party
         |                         libraries from app code 
         │
-        └───api
-                baseUrl.js      > Logic to switch if db or mock used in userAPI
-                db.json         > Generated from generateMockData.js / Acts as db
-                userApi.js      > Logic used in CRUD with user data 
+        └───api                 > Acts as a microservice library simple implementation
+            |    baseUrl.js     > Logic to switch if db or mock used in userAPI
+            |    db.json        > Generated from generateMockData.js / Acts as db
+            |    userApi.js     > Logic used in CRUD with user data 
 
 ### Component Libraries
 
-> webpack
-> expressJS
-> chalk
-> compression
-> mocha
-> chai
-> path.js -> allows
-> jsdom.js -> assists in testing with unit tests.
-
-html-webpack-plugin
-workbox-webpack-plugin
-mini-css-extract-plugin
+- webpack
+- expressJS
+- chalk
+- compression
+- mocha
+- chai
+- path.js -> allows
+- jsdom.js -> assists in testing with unit tests.
 
 ## Code Smells
 
-> test files should be next to each file and coded in conjunction with the current file.
-> unit tests should be fast and should test a single function of code.
-> unit tests shouldn't hit external resources.
-> unit test should run on save.
-> integration tests should involve spinning up test servers and testing database logic.
-> CSS should NEVER be written inline, or non-class manipulation in JS.
-> CSS should be an external file added onto the pages that it styles.
-> centralize api calls are handled in a single spot.
-    > config all calls, base url control, credential control, get put post calls handled consistently.
-    > show user a loading spinner, handle preloader logic, track async calls.
-    > handle errors in a standardized way.
-    > single seam for mocking an api, by simply changing one line of code.
-> HTML code should be written in the .html file.  Dynamic code should only follow a templated element in the html file and never created from scratch without following elements tags from the template.
-
-// MUST GENERATE SOURCE MAP from bundled-transpiled code.
-// -- Downloaded only when in dev-tools
+- test files should be next to each file and coded in conjunction with the current file.
+- unit tests should be fast and should test a single function of code.
+- unit tests shouldn't hit external resources.
+- unit test should run on save.
+- integration tests should involve spinning up test servers and testing database logic.
+- CSS should NEVER be written inline, or non-class manipulation in JS.
+- CSS should be an external file added onto the pages that it styles.
+- centralize api calls are handled in a single spot.
+  - config all calls, base url control, credential control, get put post calls handled consistently.
+  - show user a loading spinner, handle preloader logic, track async calls.
+  - handle errors in a standardized way.
+  - single seam for mocking an api, by simply changing one line of code.
+- HTML code should be written in the .html file.  Dynamic code should only follow a templated element in the html file and never created from scratch without following elements tags from the template.

@@ -20,8 +20,8 @@ app.use(middleware(compiler, {
 app.get('/users', function(req, res) {
     res.json([
         {"id": 1, "firstName":"Nick", "lastName":"Koldys", "email":"nick@gmail.com"}, 
-        {"id": 2, "firstName":"Theo", "lastName":"Carter", "email":"tC@yahoo.com"}, 
-        {"id": 3, "firstName":"CalQuin", "lastName":"Carter", "email":"rumble_Bois@yahoo.com"}
+        {"id": 2, "firstName":"Theo", "lastName":"C", "email":"tC@yahoo.com"}, 
+        {"id": 3, "firstName":"CalQuin", "lastName":"C", "email":"rumble_Bois@yahoo.com"}
     ]);
 });
 

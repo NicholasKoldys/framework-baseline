@@ -8,6 +8,8 @@ function createToast(type, message, onClick) {
     container.classList.add("show");
 
     //TODO Adding bubbling event where toast-notify catches and changes style.  OR find an event on adding live mutation observer.
+    // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template#avoiding_documentfragment_pitfall
+    // https://developer.mozilla.org/en-US/docs/Web/API/Web_components#custom_elements_2
     /* container.addEventListener("", () => {
 
     }) */

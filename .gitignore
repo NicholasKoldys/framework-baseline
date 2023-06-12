@@ -43,7 +43,13 @@ jspm_packages/
 .DS_Store
 
 # Project Specific
-*.txt
 *.old
 *.png
+*.err
+
+# Information hiding - Remove Non-Dev Dependencies
+*.txt
 dist/
+*package-lock.json
+*package.json
+package-lock.json

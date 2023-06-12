@@ -1,72 +1,63 @@
-// import { warmStrategyCache, StaleWhileRevalidate } from 'workbox-recipes';
-// import { CacheFirst } from 'workbox-strategies';
-// import { registerRoute } from 'workbox-routing';
-// import { CacheableResponsePlugin } from 'workbox-cacheable-response';
-// import { ExpirationPlugin } from 'workbox-expiration';
+// ? Claim pages on Activate
+import { clientsClaim } from 'workbox-core';
+// ? If precaching = unable to pre-nav
+import { precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching';
+// ? Used to create routing strategies.
+import { registerRoute } from 'workbox-routing';
+// ? Used to serve specified content from the cache and update with the network behind.
+import { StaleWhileRevalidate } from 'workbox-strategies';
+// ? Always expire cache to reduce app size.
+import { ExpirationPlugin } from 'workbox-expiration';
 
-const SW_VERSION = '0.1.0';
+//? used to updated precache values, methods.
+//? changing version will FORCE refresh on service worker.
+const SW_VERSION = '0.1.12';
+const API_ENTRY_LIST = [
+    'users'
+];
+const SW_PRE_CACHE_MANIFEST = self.__precacheManifest;
 
+// * IMPORTANCE : 1
+clientsClaim();
+
+// * IMPORTANCE : 2
+precacheAndRoute(SW_PRE_CACHE_MANIFEST);
+cleanupOutdatedCaches();
+
+// * IMPORTANCE : 3
+registerRoute(
+    ({url}) => {
+        API_ENTRY_LIST.includes(url.pathname.split("?")[0])
+    },
+    new StaleWhileRevalidate({
+        cacheName: 'api',
+        plugins: [
+            new ExpirationPlugin({
+                // Only cache requests for a week
+                maxAgeSeconds: 3 * 24 * 60 * 60,
+                // Only cache 10 requests.
+                maxEntries: 10,
+            }),
+        ]
+    })
+);
+
+// * NON-important message functions
 self.addEventListener('message', (event) => {
-    if (event.data.type === 'GET_VERSION') {
-        event.ports[0].postMessage(SW_VERSION);
+    if (event.data) {
+        switch (event.data.type) {
+            case "SKIP_WAITING" : {
+                self.skipWaiting();
+                break;
+            }
+            case "GET_VERSION" : {
+                event.ports[0].postMessage(SW_VERSION);
+                break;
+            }
+            case "CACHE_URLS" : {
+                event.ports[0].postMessage(SW_PRE_CACHE_MANIFEST);
+                break;
+            }
+        }
     }
 });
-
-// // Set up page cache
-// const pageCache = new CacheFirst({
-//     cacheName: 'page-cache',
-//     plugins: [
-//         new CacheableResponsePlugin({
-//         statuses: [0, 200],
-//         }),
-//         new ExpirationPlugin({
-//             maxAgeSeconds: 30 * 24 * 60 * 60,
-//         }),
-//     ],
-// });
-
-
-/* //clicked Resource
-    caches.open("item-id").then.(cache => {
-        fetch("/get?id=" + id).then(response => {
-            return response.json();
-        }).then(urls => {
-            cache.addAll(urls);
-        })
-    })
-*/
-
-/* 
-    workbox.routing.register Route(
-        /\.(?:png|jpg|jpeg|svg)$/,
-        workbox.straegies.cacheFirst({
-            cacheName: "images",
-            plugins: [
-                new workbox.expiration.Plugin({
-                    maxEntries: 60,
-                    maxAgeSeconds: 30 * 24 * 60 * 60, //30days
-                })
-            ]
-        }
-    )
- */
-
-// warmStrategyCache({
-//     urls: ['/index.html', '/'],
-//     strategy: pageCache,
-// });
-
-// registerRoute(({ request }) => request.mode === 'navigate', pageCache);
-
-// // Set up asset cache
-// registerRoute(
-// ({ request }) => ['style', 'script', 'worker'].includes(request.destination),
-//     new StaleWhileRevalidate({
-//         cacheName: 'asset-cache',
-//         plugins: [
-//         new CacheableResponsePlugin({
-//             statuses: [0, 200],
-//         }),
-//         ],
-//     }),
-// );

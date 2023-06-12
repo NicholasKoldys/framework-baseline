@@ -1,8 +1,11 @@
 import path from "path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-//workbox-webpack-plugin
-// import WorkboxPlugin from "workbox-webpack-plugin";
+import svgToMiniDataURI from "mini-svg-data-uri";
+import { InjectManifest } from "workbox-webpack-plugin";
+
+/* //! THIS WILL CHANGE ALL FILES AND CACHE THRASH THE APP */
+const PROJECT_BUILD_VERSION = "0.1.3";
 
 export default {
   // ? Creates output files
@@ -13,31 +16,28 @@ export default {
   /* // * Entry Points for URLs */
   entry: {
     // ? Bundle
-    main: {
-      import: path.resolve(__dirname, "src/index"),
-      dependsOn: "vendor",
-    },
+    main: path.resolve(__dirname, "src/index.js"),
     // ? Bundled third party libraries used in main.
-    vendor: {
-      import: path.resolve(__dirname, "src/vendor"),
-    },
+    // vendor: path.resolve(__dirname, "src/vendor.js"),
     // ? Service Worker Bundle.
-    // sw-reg: path.resolve(__dirname, "src/sw-reg"),
+    swReg: path.resolve(__dirname, "src/sw-reg.js"),
     // sw: path.resolve(__dirname, "src/src-sw"),
   },
 
   /* // * Output TRANSPILED files */
   output: { 
     // ? Transpiled Output File, Bundled JS
-    filename: ({runtime}) => {
-      if (runtime === "sw") {
+    path: path.resolve(__dirname, "dist"),
+    filename: (pathData) => {
+      if (pathData.chunk.name === "sw") {
         return "[name].js";
       }
       // ? Cache busting - only in prod
       return "[name].[contenthash:8].js"; 
     },
-    path: path.resolve(__dirname, "dist"),
+    chunkFilename: "[name].[contenthash:8].bundle.js",
     publicPath: "/",
+    hashSalt: PROJECT_BUILD_VERSION
   },
 
   optimization: {
@@ -48,7 +48,7 @@ export default {
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
+          name: "vendor",
           chunks: "all",
         }
       }
@@ -64,6 +64,8 @@ export default {
     // ? Create HTML file that includes reference to bundled JS
     new HtmlWebpackPlugin({
       template: "public/index.html",
+      publicPath: "/",
+      filename: "index.html",
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -80,19 +82,23 @@ export default {
       // using html Webpack Plugin.options.varName
       // trackJSToken: "INSERT YOUR TOKEN HERE",
     }),
-
-    /* new WorkboxPlugin.GenerateSW({
-      // these options encourage the ServiceWorkers fast
-      // and not allow "old" SWs
-      clientsClaim: true,
-      skipWaiting: true,
-    }), */
+    new InjectManifest({
+      injectionPoint: "self.__precacheManifest",
+      swSrc: path.resolve(__dirname, "src/src-sw.js"),
+      swDest: "sw.js"
+    })
   ],
   module: {
     rules: [
       { test: /\.js$/, exclude: /node_modules/, use: ["babel-loader"] },
-      { test: /\.css$/, use: [MiniCssExtractPlugin.loader, "css-loader"], options: { outputPath: "style"} },
-      { test: /\.(png|svg|jpg|jpeg|gif)$/i, type: 'asset/resource', use: "file-loader", options: { name: "[contenthash:8].[ext]", outputPath: "images" } },
+      { test: /\.css$/, use: [MiniCssExtractPlugin.loader, "css-loader"] },
+      { test: /\.(png|jpg|jpeg|gif)$/i, type: 'asset/resource' },
+      { test: /\.(svg)$/i, type: 'asset/inline', generator: {
+        dataUrl: content => {
+          content = content.toString();
+          return svgToMiniDataURI(content);
+        }
+      }},
       { test: /\.(woff|woff2|eot|ttf|otf)$/i, type: 'asset/resource' },
     ],
   },
