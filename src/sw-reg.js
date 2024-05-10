@@ -1,6 +1,6 @@
 import { Workbox } from 'workbox-window';
-import pushToast from './toastWindow';
-import alertForUpdate from './alertPromptWindow';
+import pushToast from './toastWindow.js';
+import alertForUpdate from './alertPromptWindow.js';
 
 if ('serviceWorker' in navigator) {
     const wb = new Workbox('/sw.js');

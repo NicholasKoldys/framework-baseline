@@ -6,7 +6,7 @@ and rapid page loads due to local, static data. */
 /* eslint-disable no-console */
 
 import jsf from "json-schema-faker";
-import { schema } from './mockDataSchema';
+import { schema } from './mockDataSchema.js';
 import fs from 'fs';
 
 const json = JSON.stringify( jsf.generate(schema) );
