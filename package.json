@@ -8,9 +8,9 @@
   "type": "module",
   "scripts": {
     "prestart": "node buildScripts/startMessage.js",
-    "start": "pnpm run start-mockapi open:src lint:watch test:watch",
+    "start": "pnpm run --parallel \"start-mockapi\" \"open:src\" \"lint:watch\" \"test:watch\"",
     "open:src": "node buildScripts/srcServer.js",
-    "mock:userdata": "node buildScripts/generateMockData",
+    "mock:userdata": "node buildScripts/generateMockData.js",
     "prestart-mockapi": "pnpm run mock:userdata",
     "start-mockapi": "pnpm exec json-server --watch src/api/db.json --port 3301",
     "lint": "pnpm exec esw webpack.config.* src buildScripts --color",
@@ -69,6 +69,6 @@
     "workbox-window": "^7.0.0"
   },
   "dependenciesComments": {
-    "devDependencies-omments": ""
+    "devDependencies-comment": ""
   }
 }
