@@ -12,7 +12,7 @@ This framework will assist in dynamic naming of files for cache busting, limit t
 
 | ..      | ::  | scope |   .desc.   |
 | ------- | --- | ----- | ---------- |
-| Package Management | NPM | global | manages JS packages for use in libraries |
+| Package Management | PNPM | global | manages JS packages for use in libraries - uses symlinks for less bloat. |
 | Bundling | Webpack | dev-dep | "bundles" js files to form a compressed js import, vital with managing modules and importing libraries into public facing JS.  Has many other functionalities 'bundled' in. |
 | Minification | Webpack Plugin | dev-dep | (minify/uglify) removes comments, whitespace, and can refactor code into separate files |
 | CSS Preprocessor | SASS | dev-dep | (scss) |
