@@ -12,7 +12,7 @@ This framework will assist in dynamic naming of files for cache busting, limit t
 
 | ..      | ::  | scope |   .desc.   |
 | ------- | --- | ----- | ---------- |
-| Package Management | NPM | global | manages JS packages for use in libraries |
+| Package Management | PNPM | global | manages JS packages for use in libraries - uses symlinks for less bloat. |
 | Bundling | Webpack | dev-dep | "bundles" js files to form a compressed js import, vital with managing modules and importing libraries into public facing JS.  Has many other functionalities 'bundled' in. |
 | Minification | Webpack Plugin | dev-dep | (minify/uglify) removes comments, whitespace, and can refactor code into separate files |
 | CSS Preprocessor | SASS | dev-dep | (scss) |
@@ -45,7 +45,7 @@ This framework will assist in dynamic naming of files for cache busting, limit t
 
 | Arch | Type | Desc. | Contents |
 | ---- | ---- | ----- |--------- |
-| buildScripts | dir | contains js files for npm build scripts or generating resources to be used in js frontend. These files will NOT be bundled. (ie. srcServer = starts the dev server from src, distServer = starts a dev server with the dist file to mock prod ) | <ul><li>distServer.js</li><li>generateMockData.js</li><li>mockDataSchema.js</li><li>srcServer.js</li><li>startMessage.js</li><li>testSetup.js</li></ul> |
+| buildScripts | dir | contains js files for npm build scripts or generating resources to be used in js frontend. These files will NOT be bundled. (ie. devServer = starts the dev server from src, distServer = starts a dev server with the dist file to mock prod ) | <ul><li>distServer.js</li><li>generateMockData.js</li><li>mockDataSchema.js</li><li>devServer.js</li><li>startMessage.js</li><li>testSetup.js</li></ul> |
 | dist | dir | contains production ready files, result from webpack build process |
 | node_modules | dir | contains all dev dependencies and their dependencies |
 | public | dir | contains files that can be accessed directly from a browser | <ul><li>index.css</li><li>index.html</li></ul> |
@@ -66,7 +66,7 @@ This framework will assist in dynamic naming of files for cache busting, limit t
     |                               'npm mock:userdata|start-mockapi'
     │       mockDataSchema.js    > Creates a config data scheme for JSF 
     |                               'npm mock:userdata|start-mockapi'
-    │       srcServer.js         > starts a dev server from src directory. 'npm run start'
+    │       devServer.js         > starts a dev server from src directory. 'npm run start'
     │       startMessage.js      > Displays a message a the start of 'npm run start'
     │       testSetup.js         > Creates a test command line 
     |                               reporter that styles the testing output 

@@ -6,12 +6,13 @@ and rapid page loads due to local, static data. */
 /* eslint-disable no-console */
 
 import jsf from "json-schema-faker";
-import { schema } from './mockDataSchema';
+import { schema } from './mockDataSchema.js';
 import fs from 'fs';
+import { logg } from "../utils/logger.js";
 
 const json = JSON.stringify( jsf.generate(schema) );
 
 fs.writeFile("./src/api/users/db.json", json, function (err) {
-    if (err) return console.log(err);
-    console.log( "Mock data generated.");
+    if (err) return logg( 0, err );
+    logg( 4, "Mock data generated.");
 })

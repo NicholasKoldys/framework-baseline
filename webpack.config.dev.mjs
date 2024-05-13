@@ -1,7 +1,11 @@
-import path from "path";
+import path from "node:path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from 'css-minimizer-webpack-plugin';
 import svgToMiniDataURI from "mini-svg-data-uri";
 import { InjectManifest } from "workbox-webpack-plugin";
+import { EsbuildPlugin } from 'esbuild-loader';
+
+const __dirname = import.meta.dirname;
 
 /* //! THIS WILL CHANGE ALL FILES AND CACHE THRASH THE APP */
 const PROJECT_BUILD_VERSION = "0.1.3";
@@ -57,6 +61,8 @@ export default {
       publicPath: "/",
       filename: "index.html",
     }),
+    new MiniCssExtractPlugin({ }),
+    new EsbuildPlugin({ }), 
     new InjectManifest({
       injectionPoint: "self.__precacheManifest",
       swSrc: path.resolve(__dirname, "src/src-sw.js"),
@@ -66,13 +72,17 @@ export default {
 
   module: {
     rules: [
-      { test: /\.js$/i, exclude: [/node_modules/], use: ["babel-loader"] },
-      { test: /\.css$/i, use: ["style-loader", "css-loader"], },
-      // { test: /\.css$/i, type: 'asset/resource', generator: {
-      //   emit: true,
-      //   filename: "public/css/[name][contenthash:8][ext][query]", 
-      //   /* emit, filename, outputPath, publicPath */
-      // }},
+      { test: /\.m?[j|t]sx?$/i, exclude: [/node_modules/], use: [ "esbuild-loader" ] },
+      { test: /\.s?css$/i, use: [ //* Use if using imported css files
+          process.env.NODE_ENV !== 'production'
+              ? 'style-loader'
+              : MiniCssExtractPlugin.loader, 'css-loader', /* 'sass-loader' */  ] 
+      },
+      /* { test: /\.css$/i, type: 'asset/resource', generator: { //* Use if using static css files
+          emit: true,
+          filename: "css/[name].[contenthash:8][ext][query]", 
+          //   emit, filename, outputPath, publicPath
+      }}, */
       { test: /\.(svg)$/i, type: 'asset/inline', generator: {
         dataUrl: content => {
           content = content.toString();
